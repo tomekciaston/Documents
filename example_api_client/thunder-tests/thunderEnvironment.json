@@ -1,0 +1,124 @@
+[
+  {
+    "_id": "3ab313eb-49bf-46c6-983b-db57b84b201f",
+    "name": "KrakowEats",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2021-07-24T16:26:46.306Z",
+    "modified": "2022-05-18T12:21:54.295Z",
+    "data": [
+      {
+        "name": "base_url",
+        "value": "http://localhost:3000"
+      },
+      {
+        "name": "last_created_restaurant",
+        "value": "2001"
+      },
+      {
+        "name": "last_created_order",
+        "value": "1000006"
+      },
+      {
+        "name": "last_created_product",
+        "value": "30369"
+      },
+      {
+        "name": "token_customer",
+        "value": "6fdecb6301fb5c7967bc9b6652e7b1dd4a854588"
+      },
+      {
+        "name": "customer_password",
+        "value": "Secr3t!"
+      },
+      {
+        "name": "customerToken",
+        "value": "4dbf32bb267d7c27ac40f36318e60f1447e2ad6e"
+      },
+      {
+        "name": "customerEmail",
+        "value": "foster.183f757a126d@thunderclient.com"
+      },
+      {
+        "name": "customerId",
+        "value": "507"
+      },
+      {
+        "name": "ownerToken",
+        "value": "1b96e73e2ea3f2c605c3126ab8fdc240a2af1f03"
+      },
+      {
+        "name": "orderAddress",
+        "value": "Fake address 10, 5A"
+      },
+      {
+        "name": "ownerId",
+        "value": "2"
+      },
+      {
+        "name": "restaurantCategoryId",
+        "value": "1"
+      },
+      {
+        "name": "restaurantId",
+        "value": "325"
+      },
+      {
+        "name": "anotherRestaurantCategoryId",
+        "value": "2"
+      },
+      {
+        "name": "product1Id",
+        "value": "15432"
+      },
+      {
+        "name": "product2Id",
+        "value": "15426"
+      },
+      {
+        "name": "product3Id",
+        "value": "15428"
+      },
+      {
+        "name": "product4Id",
+        "value": "15429"
+      },
+      {
+        "name": "productCategoryId",
+        "value": "1"
+      },
+      {
+        "name": "customer1OrderId",
+        "value": "433054"
+      },
+      {
+        "name": "owner2Token",
+        "value": "36a5a3b495654f62ebdfa85e6ce45f936cb8b47b"
+      },
+      {
+        "name": "productFromAnotherRestaurant",
+        "value": "1585"
+      },
+      {
+        "name": "restaurant2Id",
+        "value": "535"
+      },
+      {
+        "name": "notAvailableProductId",
+        "value": "30370"
+      },
+      {
+        "name": "availableProduct1Id",
+        "value": "6422823fe70d60fb01bd0dd1"
+      },
+      {
+        "name": "availableProduct2Id",
+        "value": "6422823fe70d60fb01bd0dd5"
+      },
+      {
+        "name": "reviewId",
+        "value": ""
+      }
+    ]
+  }
+]
