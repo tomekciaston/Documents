@@ -1,20 +1,26 @@
-
-import Sequelize from 'sequelize'
-import RepositoryBase from '../RepositoryBase.js'
-import { OrderSequelize, RestaurantSequelize, RestaurantCategorySequelize, ProductSequelize, ProductCategorySequelize } from './models/models.js'
+import Sequelize from 'sequelize';
+import RepositoryBase from '../RepositoryBase.js';
+import OrderSequelize from './models/OrderSequelize.js';
+import RestaurantSequelize from './models/RestaurantSequelize.js';
+import RestaurantCategorySequelize from './models/RestaurantCategorySequelize.js';
+import ProductSequelize from './models/ProductSequelize.js';
+import ProductCategorySequelize from './models/ProductCategorySequelize.js';
+import ReviewSequelize from './models/ReviewSequelize.js';
 
 class ProductRepository extends RepositoryBase {
   async findById (id, ...args) {
-    return ProductSequelize.findByPk(id, {
-      include: [
-        {
-          model: ProductCategorySequelize,
-          as: 'productCategory'
-        }]
-    }
-    )
+    include: [
+      {
+        model: ReviewSequelize,
+        as: 'reviews',
+        required: false,
+      },
+      {
+        model: ProductCategorySequelize,
+        as: 'productCategory'
+      }]
   }
-
+    
   async indexRestaurant (restaurantId) {
     return ProductSequelize.findAll({
       where: {

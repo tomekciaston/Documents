@@ -1,78 +1,81 @@
-
-import RepositoryBase from '../RepositoryBase.js'
-import { RestaurantSequelize, RestaurantCategorySequelize, ProductSequelize, ProductCategorySequelize } from './models/models.js'
+import RepositoryBase from '../RepositoryBase.js';
+import RestaurantSequelize from './models/RestaurantSequelize.js';
+import ProductSequelize from './models/ProductSequelize.js';
+import ProductCategorySequelize from './models/ProductCategorySequelize.js';
+import ReviewSequelize from './models/ReviewSequelize.js';
+import RestaurantCategorySequelize from './models/RestaurantCategorySequelize.js';
 
 class RestaurantRepository extends RepositoryBase {
-  async findById (id, ...args) {
-    return RestaurantSequelize.findByPk(id, {
-      // attributes: { exclude: ['userId'] },
-      include: [{
+  constructor() {
+    super();
+    this.model = RestaurantSequelize;
+    this.defaultAttributes = ['id', 'name', 'description', 'address', 'postalCode', 'url', 'shippingCosts', 'averageServiceMinutes', 'email', 'phone', 'logo', 'heroImage', 'status', 'restaurantCategoryId'];
+    this.defaultInclude = [
+      {
         model: ProductSequelize,
         as: 'products',
-        include: { model: ProductCategorySequelize, as: 'productCategory' }
+        include: [
+          { model: ProductCategorySequelize, as: 'productCategory' },
+          { model: ReviewSequelize, as: 'reviews', required: false }
+        ]
       },
       {
         model: RestaurantCategorySequelize,
         as: 'restaurantCategory'
-      }],
-      order: [[{ model: ProductSequelize, as: 'products' }, 'order', 'ASC']]
-    })
-  }
-
-  async findAll (...args) {
-    return RestaurantSequelize.findAll(
-      {
-        attributes: ['id', 'name', 'description', 'address', 'postalCode', 'url', 'shippingCosts', 'averageServiceMinutes', 'email', 'phone', 'logo', 'heroImage', 'status', 'restaurantCategoryId'],
-        include:
-      {
-        model: RestaurantCategorySequelize,
-        as: 'restaurantCategory'
-      },
-        order: [[{ model: RestaurantCategorySequelize, as: 'restaurantCategory' }, 'name', 'ASC']]
       }
-    )
+    ];
   }
 
-  async create (restaurantData, ...args) {
-    return (new RestaurantSequelize(restaurantData)).save()
+  async findById(id) {
+    return this.model.findByPk(id, {
+      attributes: { exclude: ['userId'] },
+      include: this.defaultInclude,
+      order: [[{ model: ProductSequelize, as: 'products' }, 'order', 'ASC']]
+    });
   }
 
-  async update (id, dataToUpdate, ...args) {
-    const entity = await RestaurantSequelize.findByPk(id)
-    entity.set(dataToUpdate)
-    return entity.save()
+  async findAll() {
+    return this.model.findAll({
+      attributes: this.defaultAttributes,
+      include: this.defaultInclude,
+      order: [[{ model: RestaurantCategorySequelize, as: 'restaurantCategory' }, 'name', 'ASC']]
+    });
   }
 
-  async destroy (id, ...args) {
-    const result = await RestaurantSequelize.destroy({ where: { id } })
-    return result === 1
+  async create(restaurantData) {
+    return new this.model(restaurantData).save();
   }
 
-  async save (businessEntity, ...args) {
-    return this.create(businessEntity)
+  async update(id, dataToUpdate) {
+    const entity = await this.model.findByPk(id);
+    if (!entity) return null; // Handle non-existent entity
+    entity.set(dataToUpdate);
+    return entity.save();
   }
 
-  async findByOwnerId (ownerId) {
-    return RestaurantSequelize.findAll(
-      {
-        attributes: { exclude: ['userId'] },
-        where: { userId: ownerId },
-        include: [{
-          model: RestaurantCategorySequelize,
-          as: 'restaurantCategory'
-        }]
-      })
+  async destroy(id) {
+    const result = await this.model.destroy({ where: { id } });
+    return result === 1; // Return boolean indicating success or failure
   }
 
-  async updateAverageServiceTime (restaurantId) {
-    const restaurant = await RestaurantSequelize.findByPk(restaurantId)
-    const averageServiceTime = await restaurant.getAverageServiceTime()
-    await RestaurantSequelize.update({ averageServiceMinutes: averageServiceTime }, { where: { id: restaurantId } })
+  async findByOwnerId(ownerId) {
+    return this.model.findAll({
+      attributes: { exclude: ['userId'] },
+      where: { userId: ownerId },
+      include: [{ model: RestaurantCategorySequelize, as: 'restaurantCategory' }]
+    });
   }
 
-  async show (id) {
-    return this.findById(id)
+  async updateAverageServiceTime(restaurantId) {
+    const restaurant = await this.model.findByPk(restaurantId);
+    if (!restaurant) return null; // Handle non-existent entity
+    const averageServiceTime = await restaurant.getAverageServiceTime();
+    return this.model.update({ averageServiceMinutes: averageServiceTime }, { where: { id: restaurantId } });
+  }
+
+  async show(id) {
+    return this.findById(id);
   }
 }
 
-export default RestaurantRepository
+export default RestaurantRepository;

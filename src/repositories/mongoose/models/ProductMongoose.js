@@ -1,60 +1,56 @@
-import { Schema } from 'mongoose'
+import { Schema } from 'mongoose';
+import ReviewSchema from './ReviewMongoose.js';
 
+// Define the Product schema
 const ProductSchema = new Schema({
   name: {
     type: String,
-    required: 'Kindly enter the name'
+    required: 'Please provide a name for the product'
   },
   description: {
     type: String,
-    required: 'Kindly enter the description'
+    required: 'Please describe the product'
   },
   price: {
     type: Number,
-    required: 'Kindly enter the price'
+    required: 'Please specify the price of the product'
   },
   image: {
     type: String,
-    required: 'Kindly enter the image'
+    required: 'Please upload an image of the product'
   },
   order: {
     type: Number,
-    required: 'Kindly enter the order'
+    required: 'Please enter the order number'
   },
   availability: {
     type: Boolean,
-    required: 'Kindly enter the availability'
+    required: 'Is the product available? Please indicate'
   },
   _productCategoryId: {
     type: Schema.Types.ObjectId,
-    required: 'Kindly enter the product category',
+    required: 'Please choose a Product Category',
     ref: 'ProductCategory'
-  }
-}, {
-  virtuals: {
-    productCategoryId: {
-      get () { return this._productCategoryId.toString() },
-      set (productCategoryId) { this._productCategoryId = productCategoryId }
-    },
-    restaurantId: {
-      get () { return this.ownerDocument()._id.toString() }
-    }
   },
-  strict: false,
-  timestamps: true,
-  toJSON: {
-    virtuals: true,
-    transform: function (doc, resultObject, options) {
-      delete resultObject._id
-      delete resultObject.__v
-      delete resultObject._productCategoryId
-      return resultObject
-    }
-  }
-})
+  avgStars: {
+    type: Number,
+    default: 0
+  },
+  numberOfReviews: {
+    type: Number,
+    default: 0
+  },
+  reviews: [ReviewSchema]
+}, {
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true }
+});
+
+// Define a virtual field 'productCategory'
 ProductSchema.virtual('productCategory', {
   ref: 'ProductCategory',
   localField: '_productCategoryId',
   foreignField: '_id'
-})
-export default ProductSchema
+});
+
+export default ProductSchema;

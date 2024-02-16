@@ -5,6 +5,7 @@ const saveToCSV = (csvFilePath, method, endpoint, duration) => {
   const row = `${method},${endpoint},${duration}\n`
   fs.appendFile(csvFilePath, row, 'utf8', function (err) {
     if (err) {
+      console.log(err)
       console.log('Some error occured - file either not saved or corrupted file saved.')
     }
   })

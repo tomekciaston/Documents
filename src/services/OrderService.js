@@ -166,12 +166,12 @@ class OrderService {
   async checkOrderOwnership (orderId, ownerId) {
     const order = await this.orderRepository.findById(orderId)
     const restaurantOrder = await this.restaurantRepository.findById(order.restaurantId)
-    return ownerId === restaurantOrder.userId.toString()
+    return ownerId === restaurantOrder.userId?.toString()
   }
 
   async checkOrderCustomer (orderId, customerId) {
     const order = await this.orderRepository.findById(orderId)
-    return customerId.toString() === order.userId.toString()
+    return customerId.toString() === order.userId?.toString()
   }
 
   async exists (id) {
