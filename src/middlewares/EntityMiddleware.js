@@ -11,4 +11,18 @@ const checkEntityExists = (entityService, idPathParamName) => async (req, res, n
   }
 }
 
-export { checkEntityExists }
+const checkEntityExistsWithMultipleParameters = (entityService) => async (req, res, next) => {
+  try {
+      const entityExists = await entityService.exists(req.params);
+      if (!entityExists) {
+          return res.status(404).send('Entity not found');
+      }
+      next();
+  } catch (err) {
+      const status = err.kind === 'ObjectId' ? 404 : 500;
+      res.status(status).send(err.message);
+  }
+};
+
+
+export { checkEntityExists, checkEntityExistsWithMultipleParameters}

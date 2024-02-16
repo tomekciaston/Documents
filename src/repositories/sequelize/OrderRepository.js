@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { Op } from 'sequelize'
+import {literal, Op} from 'sequelize'
 import RepositoryBase from '../RepositoryBase.js'
 import { OrderSequelize, RestaurantSequelize, ProductSequelize, sequelizeSession } from './models/models.js'
 
@@ -151,11 +151,30 @@ class OrderRepository extends RepositoryBase {
       {
         where:
           {
-            startedAt: { [Op.gte]: todayZeroHours }, // FIXME: Created or confirmed?
+            startedAt: { [Op.gte]: todayZeroHours },
             restaurantId
           }
       })
     return { restaurantId, numYesterdayOrders, numPendingOrders, numDeliveredTodayOrders, invoicedToday }
+  }
+
+  async search(query, userId){
+    return await OrderSequelize.findAll({
+        where: {
+            userId: userId
+        },
+        include: {
+            model: ProductSequelize,
+            as: 'products',
+            where: [
+              {
+                name: {
+                  [Op.like]: `%${query}%`
+                }
+              }
+            ]
+        },
+    });
   }
 }
 

@@ -16,6 +16,14 @@ class UserService {
     }
   }
 
+  async top() {
+    return this.userRepository.top()
+  }
+
+  async search(query) {
+    return this.userRepository.search(query)
+  }
+
   async _register (newUser, userType) {
     newUser.userType = userType
     newUser = { ...newUser, ...this._createUserTokenDTO() }

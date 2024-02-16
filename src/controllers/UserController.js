@@ -11,7 +11,11 @@ class UserController {
     this.registerOwner = this.registerOwner.bind(this)
     this.destroy = this.destroy.bind(this)
     this.update = this.update.bind(this)
+    this.top = this.top.bind(this)
+    this.search = this.search.bind(this)
   }
+
+ 
 
   async registerCustomer (req, res) {
     this._register(req, res, 'customer')
@@ -75,7 +79,25 @@ class UserController {
       res.status(500).send(err.message)
     }
   }
-
+  // Add top to userServoce
+  async top (req, res) {
+    try {
+      const users = await this.userService.top()
+      console.log(users)
+      res.json(users)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
+// Search for userService
+  async search (req, res) {
+    try {
+      const users = await this.userService.search(req.query)
+      res.json(users)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
   async update (req, res) {
     try {
       const user = await this.userService.update(req.user.id, req.body)

@@ -28,6 +28,24 @@ const loadFileRoutes = function (app) {
       handleValidation,
       restaurantController.create)
 
+      app.route('/restaurants/search')
+      .get(
+          RestaurantValidation.search,
+          handleValidation,
+          restaurantController.search
+      )
+
+  app.route('/restaurants/top')
+      .get(
+          restaurantController.top,
+      )
+
+  app.route('/restaurants/bottomDeliverers')
+      .get(restaurantController.bottomDeliverers)
+
+  app.route('/restaurants/topDeliverers')
+      .get(restaurantController.topDeliverers)
+
   app.route('/restaurants/:restaurantId')
     .get(
       checkEntityExists(restaurantService, 'restaurantId'),

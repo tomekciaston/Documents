@@ -27,6 +27,10 @@ class OrderService {
     return this.orderRepository.indexCustomer(customerId)
   }
 
+  async search (query, userId) {
+    return this.orderRepository.search(query, userId)
+  }
+
   async getProductsFromProductLines (productLines, restaurantId) {
     const productLinesIds = productLines.map(productLine => productLine.productId.toString())
     const restaurantWithProducts = await this.restaurantRepository.findById(restaurantId)
@@ -166,12 +170,12 @@ class OrderService {
   async checkOrderOwnership (orderId, ownerId) {
     const order = await this.orderRepository.findById(orderId)
     const restaurantOrder = await this.restaurantRepository.findById(order.restaurantId)
-    return ownerId === restaurantOrder.userId.toString()
+    return ownerId === restaurantOrder.userId?.toString()
   }
 
   async checkOrderCustomer (orderId, customerId) {
     const order = await this.orderRepository.findById(orderId)
-    return customerId.toString() === order.userId.toString()
+    return customerId.toString() === order.userId?.toString()
   }
 
   async exists (id) {

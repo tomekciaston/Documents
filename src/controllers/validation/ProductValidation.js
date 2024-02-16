@@ -48,4 +48,8 @@ const update = [
   check('restaurantId').not().exists()
 ]
 
-export { create, update }
+const search = [
+  check('query').exists().isString().isLength({ min: 3, max: 100 }).trim().withMessage("The limit is 100 characters for search.")
+]
+
+export { create, update, search }

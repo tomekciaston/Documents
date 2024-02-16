@@ -11,7 +11,7 @@ class Product extends BaseEntity {
   productCategoryId
   productCategory
 
-  constructor (id, createdAt, updatedAt, name, description, price, image, order, availability, restaurantId, productCategoryId, productCategory = null) {
+  constructor (id, createdAt, updatedAt, name, description, price, image, order, availability, restaurantId, productCategoryId, reviews = [], productCategory = null) {
     super(id, createdAt, updatedAt)
     this.name = name
     this.description = description
@@ -21,6 +21,7 @@ class Product extends BaseEntity {
     this.availability = availability
     this.restaurantId = restaurantId
     this.productCategoryId = productCategoryId
+    this.reviews = reviews
     this.productCategory = productCategory
   }
 }

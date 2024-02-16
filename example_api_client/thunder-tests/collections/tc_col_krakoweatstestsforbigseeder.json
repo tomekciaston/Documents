@@ -1,0 +1,3869 @@
+{
+    "_id": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+    "colName": "KrakowEatsTestsForBigSeeder",
+    "created": "2023-03-28T06:10:17.165Z",
+    "sortNum": 20000,
+    "folders": [
+        {
+            "_id": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "USERS",
+            "containerId": "",
+            "created": "2023-03-28T06:10:17.168Z",
+            "sortNum": 10000,
+            "settings": {}
+        },
+        {
+            "_id": "d5108590-bfaf-400b-b25e-f175074d6741",
+            "name": "CATEGORIES",
+            "containerId": "",
+            "created": "2023-03-28T06:10:17.169Z",
+            "sortNum": 15000,
+            "settings": {}
+        },
+        {
+            "_id": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "RESTAURANTS",
+            "containerId": "",
+            "created": "2023-03-28T06:10:17.170Z",
+            "sortNum": 20000,
+            "settings": {}
+        },
+        {
+            "_id": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "PRODUCTS",
+            "containerId": "",
+            "created": "2023-03-28T06:10:17.171Z",
+            "sortNum": 25000,
+            "settings": {}
+        },
+        {
+            "_id": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "ORDER OWNERS' FR",
+            "containerId": "",
+            "created": "2023-03-28T06:10:17.172Z",
+            "sortNum": 30000,
+            "settings": {}
+        },
+        {
+            "_id": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "ORDER CUSTOMERS' FR",
+            "containerId": "",
+            "created": "2023-03-28T06:10:17.174Z",
+            "sortNum": 35000,
+            "settings": {}
+        }
+    ],
+    "settings": {
+        "headers": [],
+        "tests": []
+    },
+    "requests": [
+        {
+            "_id": "f320e643-d7ef-4e47-851c-af0af200671e",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "LOGIN CUSTOMER",
+            "url": "{{base_url}}/users/login",
+            "method": "POST",
+            "sortNum": 1250,
+            "created": "2023-03-28T06:10:17.169Z",
+            "modified": "2023-03-28T06:10:17.169Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"customer1@customer.com\",\n    \"password\": \"secret\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{customerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "1746bc75-9e8d-450f-96b7-7260395814a4",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "GET CUSTOMER ORDERS",
+            "url": "{{base_url}}/orders",
+            "method": "GET",
+            "sortNum": 2500,
+            "created": "2023-03-28T06:10:17.170Z",
+            "modified": "2023-10-26T08:02:05.713Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.items[0].id",
+                    "action": "setto",
+                    "value": "{{customer1OrderId}}"
+                }
+            ]
+        },
+        {
+            "_id": "6f94359c-da7d-43f1-b376-38e24348485f",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "GET ALL",
+            "url": "{{base_url}}/restaurants",
+            "method": "GET",
+            "sortNum": 2500,
+            "created": "2023-03-28T06:10:17.171Z",
+            "modified": "2023-10-26T07:20:22.608Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.[0].id",
+                    "action": "notequal",
+                    "value": "null"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json[0].restaurantCategory",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ]
+        },
+        {
+            "_id": "145d3939-2c52-4652-aca6-5f0de960ea59",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "CREATE ORDER TO BE REMOVED",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 2968.8,
+            "created": "2023-03-28T06:10:17.172Z",
+            "modified": "2023-03-28T06:10:17.172Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Order to be removed\", \"restaurantId\": \"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{last_created_order}}"
+                }
+            ]
+        },
+        {
+            "_id": "97a5460e-4822-433e-a0d6-99de0e036cd4",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "DELETE ORDER",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "DELETE",
+            "sortNum": 3437.5,
+            "created": "2023-03-28T06:10:17.173Z",
+            "modified": "2023-03-28T06:10:17.173Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "Successfully"
+                }
+            ]
+        },
+        {
+            "_id": "1a8dc2a9-7e70-4de4-adb6-8b671be6ba97",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "CREATE ORDER",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 3750,
+            "created": "2023-03-28T06:10:17.174Z",
+            "modified": "2023-03-28T06:10:17.174Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Fake street 123\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{last_created_order}}"
+                }
+            ]
+        },
+        {
+            "_id": "fee498d8-b6be-44be-aa9b-b30968cc2af2",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "GET MY RESTAURANTS NOT LOGGED OWNER",
+            "url": "{{base_url}}/users/myRestaurants",
+            "method": "GET",
+            "sortNum": 3750,
+            "created": "2023-03-28T06:10:17.175Z",
+            "modified": "2023-03-28T06:10:17.175Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "fakeToken"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "401"
+                }
+            ]
+        },
+        {
+            "_id": "e008fdfe-2dbb-4e69-9b3b-d67975e4237f",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "EDIT ORDER",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "PUT",
+            "sortNum": 3828.2,
+            "created": "2023-03-28T06:10:17.176Z",
+            "modified": "2023-03-28T13:43:26.691Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Edited address\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 10},\n            {\"productId\":\"{{product4Id}}\", \"quantity\": 20}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.address",
+                    "action": "equal",
+                    "value": "Edited address"
+                }
+            ]
+        },
+        {
+            "_id": "71641b90-55a5-4c54-8903-1bdc0fe76515",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "EDIT ORDER CHANGE RESTAURANT",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "PUT",
+            "sortNum": 3867.3,
+            "created": "2023-03-28T06:10:17.177Z",
+            "modified": "2023-03-28T06:10:17.177Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Edited address\", \"restaurantId\":\"{{restaurant2Id}}\",\n    \"products\":[\n            {\"productId\":1, \"quantity\": 1},\n            {\"productId\":2, \"quantity\": 3},\n            {\"productId\":3, \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "767c06b7-b2b8-4e3a-a90c-f8de9206e3c0",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "CREATE ORDER SOME PRODUCT IS NOT AVAILABLE",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 3906.3,
+            "created": "2023-03-28T06:10:17.178Z",
+            "modified": "2023-03-28T06:10:17.178Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Fake street 123\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{notAvailableProductId}}\", \"quantity\": 2},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "119d304f-138a-4f0b-8a60-f7cea9dfba5b",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "CREATE ORDER RESTAURANT DOES NOT EXIST",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 3984.4,
+            "created": "2023-03-28T06:10:17.179Z",
+            "modified": "2023-04-08T22:02:02.089Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Fake street 123\", \"restaurantId\":-1,\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 2},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "4a645bec-c9c2-4f8d-9816-298d9c125151",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "CREATE ORDER PRODUCTS DO NOT BELONG RESTAURANTID",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 4062.5,
+            "created": "2023-03-28T06:10:17.180Z",
+            "modified": "2023-03-28T06:10:17.180Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"price\": 222.50, \"address\": \"Fake street 123\", \"shippingCosts\": 2.5, \"restaurantId\":\"{{restaurant2Id}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"unityPrice\": 12.5, \"quantity\": 2},\n            {\"productId\":\"{{product2Id}}\", \"unityPrice\": 22.5, \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"unityPrice\": 32.5, \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "9bf39db9-01ea-47c7-9dbe-63c01b894350",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "CREATE ORDER PRODUCTS DIFFERENT RESTAURANTS",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 4375,
+            "created": "2023-03-28T06:10:17.181Z",
+            "modified": "2023-03-28T06:10:17.181Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"price\": 222.50, \"address\": \"Fake street 123\", \"shippingCosts\": 2.5, \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"unityPrice\": 12.5, \"quantity\": 2},\n            {\"productId\":\"{{product2Id}}\", \"unityPrice\": 22.5, \"quantity\": 3},\n            {\"productId\":\"{{productFromAnotherRestaurant}}\", \"unityPrice\": 32.5, \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "37cb08c8-fefb-4417-9368-02fc06c849db",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "LOGIN OWNER 1",
+            "url": "{{base_url}}/users/loginOwner",
+            "method": "POST",
+            "sortNum": 5000,
+            "created": "2023-03-28T06:10:17.182Z",
+            "modified": "2023-03-28T06:10:17.182Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"owner1@owner.com\",\n    \"password\": \"secret\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{ownerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "9866b4aa-d548-4a32-85fa-6bb3b1176944",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "LOGIN OWNER 1",
+            "url": "{{base_url}}/users/loginOwner",
+            "method": "POST",
+            "sortNum": 5000,
+            "created": "2023-03-28T06:10:17.183Z",
+            "modified": "2023-03-28T06:10:17.183Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"owner1@owner.com\",\n    \"password\": \"secret\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{ownerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "f36adae4-e226-4488-9d49-32807ee9fd9f",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "REGISTER NEW CUSTOMER",
+            "url": "{{base_url}}/users/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-03-28T06:10:17.184Z",
+            "modified": "2023-03-28T06:10:17.184Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "firstName",
+                        "value": "{{#randomString}}"
+                    },
+                    {
+                        "name": "lastName",
+                        "value": "{{#randomString}}"
+                    },
+                    {
+                        "name": "email",
+                        "value": "{{#randomEmail}}"
+                    },
+                    {
+                        "name": "password",
+                        "value": "{{customer_password}}"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "{{#randomNumber}}"
+                    },
+                    {
+                        "name": "address",
+                        "value": "{{#randomString}}"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41001"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "avatar",
+                        "value": "../example_assets/femaleAvatar.png"
+                    }
+                ]
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{customerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.email",
+                    "action": "setto",
+                    "value": "{{customerEmail}}"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{customerId}}"
+                }
+            ]
+        },
+        {
+            "_id": "1a9e4ece-d59d-4a12-bfd6-ae82eaf42a73",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "GET MY RESTAURANTS",
+            "url": "{{base_url}}/users/myRestaurants",
+            "method": "GET",
+            "sortNum": 12500,
+            "created": "2023-03-28T06:10:17.185Z",
+            "modified": "2023-03-28T06:10:17.185Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json[0].restaurantCategory",
+                    "action": "notequal",
+                    "value": "null"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json[0].id",
+                    "action": "notequal",
+                    "value": "null"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[0].id",
+                    "action": "setto",
+                    "value": "{{restaurantId}}"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[1].id",
+                    "action": "setto",
+                    "value": "{{restaurant2Id}}"
+                }
+            ]
+        },
+        {
+            "_id": "ca59a16a-5128-4460-9fbb-40ee8c07df6b",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "LOGIN OWNER",
+            "url": "{{base_url}}/users/loginOwner",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2023-03-28T06:10:17.186Z",
+            "modified": "2023-03-28T06:10:17.186Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"owner1@owner.com\",\n    \"password\": \"secret\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{ownerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "942672c3-bd75-4d03-8857-e8581781f8a6",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "GET RESTAURANT DETAILS",
+            "url": "{{base_url}}/restaurants/{{restaurantId}}",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-28T06:10:17.187Z",
+            "modified": "2023-03-28T06:27:25.739Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[0].productCategory",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ]
+        },
+        {
+            "_id": "afcdb085-e63a-45a3-8ec1-55828057af87",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "LOGIN OWNER",
+            "url": "{{base_url}}/users/loginOwner",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-03-28T06:10:17.188Z",
+            "modified": "2023-03-28T06:10:17.188Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"owner1@owner.com\",\n    \"password\": \"secret\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{ownerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{ownerId}}"
+                }
+            ]
+        },
+        {
+            "_id": "d277c40d-c6fa-405d-a923-0cf189124432",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR5: Listing my confirmed orders (no orders yet)",
+            "url": "{{base_url}}/orders",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-03-28T06:10:17.189Z",
+            "modified": "2023-10-26T08:04:37.496Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.items",
+                    "action": "count",
+                    "value": "0"
+                }
+            ]
+        },
+        {
+            "_id": "53ed19fc-a21f-460c-a6da-4de16cf7dfbb",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "GET RESTAURANT 2 DETAILS",
+            "url": "{{base_url}}/restaurants/{{restaurant2Id}}",
+            "method": "GET",
+            "sortNum": 22500,
+            "created": "2023-03-28T06:10:17.190Z",
+            "modified": "2023-03-28T06:11:43.104Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[0].productCategory",
+                    "action": "notequal",
+                    "value": "null"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.products[0].id",
+                    "action": "setto",
+                    "value": "{{productFromAnotherRestaurant}}"
+                }
+            ]
+        },
+        {
+            "_id": "2761e550-020f-4196-9f64-996ee1140025",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test middleware1: Create order without logged-in user",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 25000,
+            "created": "2023-03-28T06:10:17.191Z",
+            "modified": "2023-03-28T06:10:17.191Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "401"
+                }
+            ]
+        },
+        {
+            "_id": "e41d8697-29f6-4a0e-8a37-f7d6e1e2f127",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "GET RESTAURANT DETAILS NON EXISTENT",
+            "url": "{{base_url}}/restaurants/notAnId",
+            "method": "GET",
+            "sortNum": 25000,
+            "created": "2023-03-28T06:10:17.192Z",
+            "modified": "2023-03-28T06:10:17.192Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "404"
+                }
+            ]
+        },
+        {
+            "_id": "d27f3a74-8101-4cad-84d2-82c7e0f63dd7",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test middleware2: Create order from a logged-in owner",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 27500,
+            "created": "2023-03-28T06:10:17.193Z",
+            "modified": "2023-03-28T06:10:17.193Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "403"
+                }
+            ]
+        },
+        {
+            "_id": "3434c40f-f764-4f95-be57-a5a106f1e0f3",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "GET USER",
+            "url": "{{base_url}}/users/{{ownerId}}",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-03-28T06:10:17.194Z",
+            "modified": "2023-04-06T21:58:15.060Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.password",
+                    "action": "istype",
+                    "value": "undefined"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.token",
+                    "action": "istype",
+                    "value": "undefined"
+                }
+            ]
+        },
+        {
+            "_id": "d9322a02-4455-4eea-9006-bb219bed54ca",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "CREATE RESTAURANT",
+            "url": "{{base_url}}/restaurants",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-03-28T06:10:17.195Z",
+            "modified": "2023-03-28T06:10:17.195Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Bodeguita Antonio Romero"
+                    },
+                    {
+                        "name": "description",
+                        "value": "Comida Sevillana"
+                    },
+                    {
+                        "name": "address",
+                        "value": "Calle Antonia Díaz, 19"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41001"
+                    },
+                    {
+                        "name": "url",
+                        "value": "http://www.bodeguitasantonioromero.com/"
+                    },
+                    {
+                        "name": "email",
+                        "value": "info@bodeguitasantonioromero.com"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "+34654223939"
+                    },
+                    {
+                        "name": "shippingCosts",
+                        "value": "3.5"
+                    },
+                    {
+                        "name": "restaurantCategoryId",
+                        "value": "{{restaurantCategoryId}}"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "logo",
+                        "value": "../example_assets/logo.jpeg"
+                    },
+                    {
+                        "name": "heroImage",
+                        "value": "../example_assets/heroImage.jpg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{last_created_restaurant}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "4db35ae0-6fdc-41c7-ae97-54c840a4b35d",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test BR1: ORDER >10Eur",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-03-28T06:10:17.196Z",
+            "modified": "2023-03-31T21:30:46.853Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{last_created_order}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.shippingCosts",
+                    "action": "equal",
+                    "value": "0"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.status",
+                    "action": "equal",
+                    "value": "pending"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "notequal",
+                    "value": "null"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.startedAt",
+                    "action": "istype",
+                    "value": "undefined"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.sentAt",
+                    "action": "istype",
+                    "value": "undefined"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.address",
+                    "action": "equal",
+                    "value": "{{orderAddress}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.restaurantId",
+                    "action": "equal",
+                    "value": "{{restaurantId}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.userId",
+                    "action": "equal",
+                    "value": "{{customerId}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products",
+                    "action": "istype",
+                    "value": "array"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products",
+                    "action": "count",
+                    "value": "3"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[id={{product1Id}}].id",
+                    "action": "equal",
+                    "value": "{{product1Id}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[id={{product2Id}}].id",
+                    "action": "equal",
+                    "value": "{{product2Id}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[id={{product3Id}}].id",
+                    "action": "equal",
+                    "value": "{{product3Id}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[id={{product1Id}}].quantity",
+                    "action": "equal",
+                    "value": "1"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.deliveredAt",
+                    "action": "istype",
+                    "value": "undefined"
+                }
+            ]
+        },
+        {
+            "_id": "ddd0b955-a75a-4d33-b59d-1966812ad48c",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "CHECK INVALID TOKEN",
+            "url": "{{base_url}}/users/{{ownerId}}",
+            "method": "GET",
+            "sortNum": 32500,
+            "created": "2023-03-28T06:10:17.197Z",
+            "modified": "2023-03-28T06:10:17.197Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "invalidToken"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "401"
+                }
+            ]
+        },
+        {
+            "_id": "956907a8-8588-4ac1-9f96-244322e7067c",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "ISTOKENVALID",
+            "url": "{{base_url}}/users/isTokenValid",
+            "method": "PUT",
+            "sortNum": 35000,
+            "created": "2023-03-28T06:10:17.198Z",
+            "modified": "2023-03-28T06:10:17.198Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"token\": \"{{ownerToken}}\"}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "e514a9a9-bb6c-4f38-966e-97364ff84c47",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "CREATE RESTAURANT CHECK FIELD VALIDATIONS",
+            "url": "{{base_url}}/restaurants",
+            "method": "POST",
+            "sortNum": 35000,
+            "created": "2023-03-28T06:10:17.199Z",
+            "modified": "2023-03-28T06:10:17.199Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "cadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadol"
+                    },
+                    {
+                        "name": "description",
+                        "value": "Comida Sevillana"
+                    },
+                    {
+                        "name": "address",
+                        "value": "cadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadol"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "cadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadolargacadenademasiadol"
+                    },
+                    {
+                        "name": "url",
+                        "value": "notAValidUrl"
+                    },
+                    {
+                        "name": "email",
+                        "value": "notAValidEmail"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "123"
+                    },
+                    {
+                        "name": "shippingCosts",
+                        "value": "-1"
+                    },
+                    {
+                        "name": "restaurantCategoryId",
+                        "value": "notValid",
+                        "isDisabled": true
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "logo",
+                        "value": "../example_assets/logo.jpeg"
+                    },
+                    {
+                        "name": "heroImage",
+                        "value": "../example_assets/heroImage.jpg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[0].param",
+                    "action": "equal",
+                    "value": "name"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[1].param",
+                    "action": "equal",
+                    "value": "address"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[2].param",
+                    "action": "equal",
+                    "value": "postalCode"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[3].param",
+                    "action": "equal",
+                    "value": "url"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[4].param",
+                    "action": "equal",
+                    "value": "shippingCosts"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[5].param",
+                    "action": "equal",
+                    "value": "email"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[6].param",
+                    "action": "equal",
+                    "value": "restaurantCategoryId"
+                }
+            ]
+        },
+        {
+            "_id": "b947c59d-6b01-4f4a-9262-b5bf4134c19a",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "REGISTER NEW CUSTOMER",
+            "url": "{{base_url}}/users/register",
+            "method": "POST",
+            "sortNum": 37500,
+            "created": "2023-03-28T06:10:17.200Z",
+            "modified": "2023-03-28T06:10:17.200Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "firstName",
+                        "value": "Customer 2"
+                    },
+                    {
+                        "name": "lastName",
+                        "value": "Customer 2 last name"
+                    },
+                    {
+                        "name": "email",
+                        "value": "{{#randomEmail}}"
+                    },
+                    {
+                        "name": "password",
+                        "value": "s3_!crET"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "123456789"
+                    },
+                    {
+                        "name": "address",
+                        "value": "customer 2 address"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41001"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "avatar",
+                        "value": "../example_assets/femaleAvatar.png"
+                    }
+                ]
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{customerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "124152ca-e3ab-40f4-9e36-979827558868",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "EDIT RESTAURANT",
+            "url": "{{base_url}}/restaurants/{{last_created_restaurant}}",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-03-28T06:10:17.201Z",
+            "modified": "2023-03-28T06:10:17.201Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Bodeguita Antonio Romero updated"
+                    },
+                    {
+                        "name": "description",
+                        "value": "Comida Sevillana updated"
+                    },
+                    {
+                        "name": "address",
+                        "value": "Calle Antonia Díaz, 19 updated"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41001"
+                    },
+                    {
+                        "name": "url",
+                        "value": "http://www.bodeguitasantonioromero.com/"
+                    },
+                    {
+                        "name": "email",
+                        "value": "info@bodeguitasantonioromer.com"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "+34954223939"
+                    },
+                    {
+                        "name": "shippingCosts",
+                        "value": "3.5"
+                    },
+                    {
+                        "name": "restaurantCategoryId",
+                        "value": "{{anotherRestaurantCategoryId}}"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "heroImage",
+                        "value": "../example_assets/heroImage.jpg"
+                    },
+                    {
+                        "name": "logo",
+                        "value": "../example_assets/logo.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "Bodeguita Antonio Romero updated"
+                }
+            ]
+        },
+        {
+            "_id": "c264815f-cdd9-4f53-a071-a8faf2f30765",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test BR1: ORDER <10Eur",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-03-28T06:10:17.202Z",
+            "modified": "2023-03-28T14:10:02.529Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 1}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{last_created_order}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.status",
+                    "action": "equal",
+                    "value": "pending"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "notequal",
+                    "value": "null"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.startedAt",
+                    "action": "istype",
+                    "value": "undefined"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.sentAt",
+                    "action": "istype",
+                    "value": "undefined"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.address",
+                    "action": "equal",
+                    "value": "{{orderAddress}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.restaurantId",
+                    "action": "equal",
+                    "value": "{{restaurantId}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.userId",
+                    "action": "equal",
+                    "value": "{{customerId}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products",
+                    "action": "istype",
+                    "value": "array"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products",
+                    "action": "count",
+                    "value": "1"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[0].id",
+                    "action": "equal",
+                    "value": "{{product3Id}}"
+                }
+            ]
+        },
+        {
+            "_id": "cc0f9ab0-a190-4f11-81a9-03765323e91e",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "EDIT LOGGED USER",
+            "url": "{{base_url}}/users",
+            "method": "PUT",
+            "sortNum": 42500,
+            "created": "2023-03-28T06:10:17.203Z",
+            "modified": "2023-03-28T06:10:17.203Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "firstName",
+                        "value": "Customer 2 edited"
+                    },
+                    {
+                        "name": "lastName",
+                        "value": "Customer 2 last name edited"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "123456789"
+                    },
+                    {
+                        "name": "address",
+                        "value": "customer 2 address edited"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41002"
+                    },
+                    {
+                        "name": "userType",
+                        "value": "customer"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "avatar",
+                        "value": "../example_assets/maleAvatar.png"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.firstName",
+                    "action": "equal",
+                    "value": "Customer 2 edited"
+                }
+            ]
+        },
+        {
+            "_id": "fe59ae66-8ccc-4c61-bbcc-5866b838b5c3",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "LOGIN CUSTOMER",
+            "url": "{{base_url}}/users/login",
+            "method": "POST",
+            "sortNum": 43750,
+            "created": "2023-03-28T06:10:17.204Z",
+            "modified": "2023-03-28T06:10:17.204Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"customer1@customer.com\",\n    \"password\": \"secret\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{customerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "5fa9c0ba-1733-4f47-af6d-33956c9c670f",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "REGISTER NEW OWNER",
+            "url": "{{base_url}}/users/registerOwner",
+            "method": "POST",
+            "sortNum": 45000,
+            "created": "2023-03-28T06:10:17.206Z",
+            "modified": "2023-03-28T06:10:17.206Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "firstName",
+                        "value": "Owner creado"
+                    },
+                    {
+                        "name": "lastName",
+                        "value": "Owner creado last name"
+                    },
+                    {
+                        "name": "email",
+                        "value": "{{#randomEmail}}"
+                    },
+                    {
+                        "name": "password",
+                        "value": "s3_!crET"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "123456789"
+                    },
+                    {
+                        "name": "address",
+                        "value": "owner creado address"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41001"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "avatar",
+                        "value": "../example_assets/maleAvatar.png"
+                    }
+                ]
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{ownerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "70143510-f366-4561-9dda-d09763d00d32",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "REGISTER OTHER OWNER",
+            "url": "{{base_url}}/users/registerOwner",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-03-28T06:10:17.207Z",
+            "modified": "2023-03-28T06:10:17.207Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "firstName",
+                        "value": "Other owner"
+                    },
+                    {
+                        "name": "lastName",
+                        "value": "New Owner last name"
+                    },
+                    {
+                        "name": "email",
+                        "value": "{{#randomEmail}}"
+                    },
+                    {
+                        "name": "password",
+                        "value": "s3_!crET"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "123456789"
+                    },
+                    {
+                        "name": "address",
+                        "value": "New Owner 2 address"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41001"
+                    },
+                    {
+                        "name": "userType",
+                        "value": "owner"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "avatar",
+                        "value": "../example_assets/maleAvatar.png"
+                    }
+                ]
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{owner2Token}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "0a24c6f7-463a-4056-8e4d-b55fcd8e6123",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test BR2 and Validation: Create an order with products from a different restaurant",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-03-28T06:10:17.208Z",
+            "modified": "2023-03-28T06:10:17.208Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{productFromAnotherRestaurant}}\", \"quantity\": 2}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors",
+                    "action": "istype",
+                    "value": "array"
+                }
+            ]
+        },
+        {
+            "_id": "56c131fd-2382-48ad-a7d9-53d4390e3fd3",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "DELETE ACCOUNT",
+            "url": "{{base_url}}/users",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2023-03-28T06:10:17.209Z",
+            "modified": "2023-03-28T06:10:17.209Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "616602f4-4876-471c-8613-afc32f880f81",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "EDIT RESTAURANT NOT OWNED",
+            "url": "{{base_url}}/restaurants/{{last_created_restaurant}}",
+            "method": "PUT",
+            "sortNum": 60000,
+            "created": "2023-03-28T06:10:17.210Z",
+            "modified": "2023-03-28T06:10:17.210Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Bodeguita Antonio Romero updated"
+                    },
+                    {
+                        "name": "description",
+                        "value": "Comida Sevillana updated"
+                    },
+                    {
+                        "name": "address",
+                        "value": "Calle Antonia Díaz, 19 updated"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41001"
+                    },
+                    {
+                        "name": "url",
+                        "value": "http://www.bodeguitasantonioromero.com/"
+                    },
+                    {
+                        "name": "email",
+                        "value": "info@bodeguitasantonioromer.com"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "+34954223939"
+                    },
+                    {
+                        "name": "shippingCosts",
+                        "value": "3.5"
+                    },
+                    {
+                        "name": "restaurantCategoryId",
+                        "value": "{{anotherRestaurantCategoryId}}"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "heroImage",
+                        "value": "../example_assets/heroImage.jpg"
+                    },
+                    {
+                        "name": "logo",
+                        "value": "../example_assets/logo.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{owner2Token}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "403"
+                }
+            ]
+        },
+        {
+            "_id": "145f8245-cf45-4914-8132-e29497eb703d",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test BR2 and Validation: Create an order with products from two restaurants",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-03-28T06:10:17.211Z",
+            "modified": "2023-03-28T06:10:17.211Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{productFromAnotherRestaurant}}\", \"quantity\": 2}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors",
+                    "action": "istype",
+                    "value": "array"
+                }
+            ]
+        },
+        {
+            "_id": "a0cdaa05-128d-4d76-85af-6eec9ac3176c",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "GET RESTAURANT ID Orders",
+            "url": "{{base_url}}/restaurants/{{restaurantId}}/orders",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-03-28T06:10:17.212Z",
+            "modified": "2023-03-28T06:10:17.212Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "f83fbfbc-793f-4a6d-870d-b47b89b5f3d9",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "1097674c-2c8b-4547-984f-f6ef2671b1b7",
+            "name": "REGISTER NEW CUSTOMER VALIDATE FIELDS",
+            "url": "{{base_url}}/users/register",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-03-28T06:10:17.213Z",
+            "modified": "2023-03-28T06:10:17.213Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "firstName",
+                        "value": ""
+                    },
+                    {
+                        "name": "lastName",
+                        "value": ""
+                    },
+                    {
+                        "name": "email",
+                        "value": "notAValidEmail"
+                    },
+                    {
+                        "name": "password",
+                        "value": "with spaces"
+                    },
+                    {
+                        "name": "phone",
+                        "value": ""
+                    },
+                    {
+                        "name": "address",
+                        "value": ""
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": ""
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "avatar",
+                        "value": "../example_assets/femaleAvatar.png"
+                    }
+                ]
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[0].param",
+                    "action": "equal",
+                    "value": "firstName"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[1].param",
+                    "action": "equal",
+                    "value": "lastName"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[2].param",
+                    "action": "equal",
+                    "value": "email"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[3].param",
+                    "action": "equal",
+                    "value": "password"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[4].param",
+                    "action": "equal",
+                    "value": "password"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[5].param",
+                    "action": "equal",
+                    "value": "phone"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[6].param",
+                    "action": "equal",
+                    "value": "address"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors[7].param",
+                    "action": "equal",
+                    "value": "postalCode"
+                }
+            ]
+        },
+        {
+            "_id": "0ccbac2b-9f69-44fe-a557-bc1eab39ebac",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test Validation: Create an order with products with quantity 0",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-03-28T06:10:17.214Z",
+            "modified": "2023-03-28T06:10:17.214Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 0}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors",
+                    "action": "istype",
+                    "value": "array"
+                }
+            ]
+        },
+        {
+            "_id": "343cac21-d8f7-420f-96d6-5d170725b33e",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test Validation: Create an order without products",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 77500,
+            "created": "2023-03-28T06:10:17.215Z",
+            "modified": "2023-03-28T06:10:17.215Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\", \"restaurantId\":\"{{restaurantId}}\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.errors",
+                    "action": "istype",
+                    "value": "array"
+                }
+            ]
+        },
+        {
+            "_id": "892f3a5a-a097-409c-86d6-feddb046c8f6",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "SEND ORDER CREATED NOT CONFIRMED",
+            "url": "{{base_url}}/orders/{{last_created_order}}/send",
+            "method": "PATCH",
+            "sortNum": 80000,
+            "created": "2023-03-28T06:10:17.216Z",
+            "modified": "2023-03-28T06:10:17.216Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "a9a7f575-18eb-414f-9106-97b6d5c5a5f4",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "DELIVER ORDER NOT CONFIRMED",
+            "url": "{{base_url}}/orders/{{last_created_order}}/deliver",
+            "method": "PATCH",
+            "sortNum": 85000,
+            "created": "2023-03-28T06:10:17.217Z",
+            "modified": "2023-03-28T06:10:17.217Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "d3e23632-180b-41b1-92c6-69dc7e4d0243",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "CONFIRM ORDER CREATED",
+            "url": "{{base_url}}/orders/{{last_created_order}}/confirm",
+            "method": "PATCH",
+            "sortNum": 90000,
+            "created": "2023-03-28T06:10:17.218Z",
+            "modified": "2023-03-28T06:10:17.218Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "e04081fd-4c54-4de4-90ee-0d03d8a4e758",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test Validation: Create an order without restaurantId",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2023-03-28T06:10:17.219Z",
+            "modified": "2023-03-28T06:10:17.219Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 2}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "798cbd87-de09-49cb-a0f7-67e431677bbe",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "EDIT ORDER AFTER CONFIRMED",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "PUT",
+            "sortNum": 91250,
+            "created": "2023-03-28T06:10:17.220Z",
+            "modified": "2023-03-28T06:10:17.220Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Edited address\",\n    \"products\":[\n            {\"productId\":1, \"quantity\": 10},\n            {\"productId\":4, \"quantity\": 20}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "78ea365d-cb1d-4de8-b507-9049c8bbdf99",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "DELETE ORDER AFTER CONFIRMED",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "DELETE",
+            "sortNum": 92500,
+            "created": "2023-03-28T06:10:17.221Z",
+            "modified": "2023-03-28T06:10:17.221Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "c77b859c-1230-4a20-bd64-4407f7687263",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "CREATE PRODUCT NOT AVAILABLE",
+            "url": "{{base_url}}/products/",
+            "method": "POST",
+            "sortNum": 92500,
+            "created": "2023-03-28T06:10:17.222Z",
+            "modified": "2023-03-28T06:10:17.222Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "N/A"
+                    },
+                    {
+                        "name": "description",
+                        "value": "N/A"
+                    },
+                    {
+                        "name": "price",
+                        "value": "5"
+                    },
+                    {
+                        "name": "order",
+                        "value": "4"
+                    },
+                    {
+                        "name": "availability",
+                        "value": "false"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "value": "{{restaurantId}}"
+                    },
+                    {
+                        "name": "productCategoryId",
+                        "value": "{{productCategoryId}}"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "image",
+                        "value": "../example_assets/paella.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{notAvailableProductId}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "N/A"
+                }
+            ]
+        },
+        {
+            "_id": "b0dcda54-c72a-4436-9925-2090a61a09db",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "RE-CONFIRM ORDER CREATED",
+            "url": "{{base_url}}/orders/{{last_created_order}}/confirm",
+            "method": "PATCH",
+            "sortNum": 95000,
+            "created": "2023-03-28T06:10:17.223Z",
+            "modified": "2023-03-28T06:10:17.223Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "7834cae8-e4f7-40e5-bfe6-fb79266071a4",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test Validation: Create an order including not available products",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 95000,
+            "created": "2023-03-28T06:10:17.224Z",
+            "modified": "2023-03-28T06:10:17.224Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Fake street 123\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{notAvailableProductId}}\", \"quantity\": 2},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "6c334342-ad23-4d38-a14a-3001e795a91b",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "DELIVER ORDER NOT SENT",
+            "url": "{{base_url}}/orders/{{last_created_order}}/deliver",
+            "method": "PATCH",
+            "sortNum": 97500,
+            "created": "2023-03-28T06:10:17.225Z",
+            "modified": "2023-03-28T06:10:17.225Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "a3538aab-9a6d-4df7-ae89-36978ee7535b",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "DELETE NOT AVAILABLE PRODUCT ",
+            "url": "{{base_url}}/products/{{notAvailableProductId}}",
+            "method": "DELETE",
+            "sortNum": 97500,
+            "created": "2023-03-28T06:10:17.226Z",
+            "modified": "2023-03-28T06:10:17.226Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "cba833a9-7d1e-4366-a339-2867358e2b57",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "SEND ORDER CREATED",
+            "url": "{{base_url}}/orders/{{last_created_order}}/send",
+            "method": "PATCH",
+            "sortNum": 100000,
+            "created": "2023-03-28T06:10:17.227Z",
+            "modified": "2023-03-28T06:10:17.227Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "538987de-c169-44c9-a237-411f46574dbb",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR4: Confirm new order. Test Validation: Create an order restaurantId does not correspond to any restaurant",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2023-03-28T06:10:17.228Z",
+            "modified": "2023-03-28T06:10:17.228Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"{{orderAddress}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 2}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "540d5067-ef0b-4a5d-9c84-ee27ab0a4597",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "RE-SEND ORDER CREATED",
+            "url": "{{base_url}}/orders/{{last_created_order}}/send",
+            "method": "PATCH",
+            "sortNum": 105000,
+            "created": "2023-03-28T06:10:17.229Z",
+            "modified": "2023-03-28T06:10:17.229Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "12f989aa-2b09-45da-af01-f1c7f5d1edab",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "DELIVER ORDER CREATED",
+            "url": "{{base_url}}/orders/{{last_created_order}}/deliver",
+            "method": "PATCH",
+            "sortNum": 110000,
+            "created": "2023-03-28T06:10:17.230Z",
+            "modified": "2023-03-28T06:10:17.230Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "ec32429c-c522-4c4c-8662-bf75773247a7",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR5: Listing my confirmed orders. 2 orders correctly placed",
+            "url": "{{base_url}}/orders",
+            "method": "GET",
+            "sortNum": 110000,
+            "created": "2023-03-28T06:10:17.231Z",
+            "modified": "2023-10-26T08:05:46.188Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.items",
+                    "action": "count",
+                    "value": "2"
+                }
+            ]
+        },
+        {
+            "_id": "b151a526-fbf6-4fec-9c56-e06e40375374",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "GET PRODUCTS OF A RESTAURANT ",
+            "url": "{{base_url}}/restaurants/{{restaurantId}}/products",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2023-03-28T06:10:17.232Z",
+            "modified": "2023-03-28T06:26:54.959Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[availability=1][0].id",
+                    "action": "setto",
+                    "value": "{{product1Id}}"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[availability=1][1].id",
+                    "action": "setto",
+                    "value": "{{product2Id}}"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[availability=1][2].id",
+                    "action": "setto",
+                    "value": "{{product3Id}}"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[availability=1][3].id",
+                    "action": "setto",
+                    "value": "{{product4Id}}"
+                }
+            ]
+        },
+        {
+            "_id": "3769dfaa-9374-4a8d-87a7-62185915ae76",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR6: Get order details. Test Middleware checkOrderCustomer",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2023-03-28T06:10:17.233Z",
+            "modified": "2023-03-28T06:10:17.233Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "{{last_created_order}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.userId",
+                    "action": "equal",
+                    "value": "{{customerId}}"
+                }
+            ]
+        },
+        {
+            "_id": "65c66aaf-1c2f-472a-ac7b-274a2a8fa1d8",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "GET PRODUCT DETAILS",
+            "url": "{{base_url}}/products/{{product1Id}}",
+            "method": "GET",
+            "sortNum": 122500,
+            "created": "2023-03-28T06:10:17.234Z",
+            "modified": "2023-03-28T06:10:17.234Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "2d124ab7-d523-4b26-9ca5-70c2eb25f8bc",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "GET PRODUCT DETAILS NON EXISTENT",
+            "url": "{{base_url}}/products/0",
+            "method": "GET",
+            "sortNum": 123750,
+            "created": "2023-03-28T06:10:17.235Z",
+            "modified": "2023-03-28T06:10:17.235Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "404"
+                }
+            ]
+        },
+        {
+            "_id": "9db40d2e-6a8c-470b-bb07-c11982292cfe",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "LOGIN OWNER 1",
+            "url": "{{base_url}}/users/loginOwner",
+            "method": "POST",
+            "sortNum": 125000,
+            "created": "2023-03-28T06:10:17.236Z",
+            "modified": "2023-03-28T06:10:17.236Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"owner1@owner.com\",\n    \"password\": \"secret\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{ownerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "3c078708-6948-4a08-9943-66c962a41142",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "CREATE PRODUCT",
+            "url": "{{base_url}}/products/",
+            "method": "POST",
+            "sortNum": 130000,
+            "created": "2023-03-28T06:10:17.237Z",
+            "modified": "2023-03-28T06:10:17.237Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Paella"
+                    },
+                    {
+                        "name": "description",
+                        "value": "de marisco"
+                    },
+                    {
+                        "name": "price",
+                        "value": "5"
+                    },
+                    {
+                        "name": "order",
+                        "value": "4"
+                    },
+                    {
+                        "name": "availability",
+                        "value": "true"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "value": "{{restaurantId}}"
+                    },
+                    {
+                        "name": "productCategoryId",
+                        "value": "{{productCategoryId}}"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "image",
+                        "value": "../example_assets/paella.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{last_created_product}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "Paella"
+                }
+            ]
+        },
+        {
+            "_id": "c068a71a-0d3b-421c-94c1-bb47e8c2f1b3",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "LOGIN OWNER 1",
+            "url": "{{base_url}}/users/loginOwner",
+            "method": "POST",
+            "sortNum": 130000,
+            "created": "2023-03-28T06:10:17.238Z",
+            "modified": "2023-03-28T06:10:17.238Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"owner1@owner.com\",\n    \"password\": \"secret\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{ownerToken}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "f2dd60b5-635e-4cd8-8329-8ff4432a9a69",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR6: Get order details. Test Middleware checkOrderCustomer other customer",
+            "url": "{{base_url}}/orders/{{customer1OrderId}}",
+            "method": "GET",
+            "sortNum": 130000,
+            "created": "2023-03-28T06:10:17.239Z",
+            "modified": "2023-03-28T06:10:17.239Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "403"
+                }
+            ]
+        },
+        {
+            "_id": "b540865b-dd0b-4054-85f7-946b1cd07ac5",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "EDIT PRODUCT",
+            "url": "{{base_url}}/products/{{last_created_product}}",
+            "method": "PUT",
+            "sortNum": 140000,
+            "created": "2023-03-28T06:10:17.240Z",
+            "modified": "2023-03-28T06:10:17.240Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Paella editado"
+                    },
+                    {
+                        "name": "description",
+                        "value": "de marisco editado"
+                    },
+                    {
+                        "name": "price",
+                        "value": "6"
+                    },
+                    {
+                        "name": "order",
+                        "value": "5"
+                    },
+                    {
+                        "name": "availability",
+                        "value": "false"
+                    },
+                    {
+                        "name": "productCategoryId",
+                        "value": "{{productCategoryId}}"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "image",
+                        "value": "../example_assets/paella.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "Paella editado"
+                }
+            ]
+        },
+        {
+            "_id": "ccc78cef-f573-4e53-95c2-abab4ff9c625",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "RE-DELIVER ORDER CREATED",
+            "url": "{{base_url}}/orders/{{last_created_order}}/deliver",
+            "method": "PATCH",
+            "sortNum": 140000,
+            "created": "2023-03-28T06:10:17.241Z",
+            "modified": "2023-03-28T06:10:17.241Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "b60c9fe1-1054-4cb2-93cb-d5882a094b0b",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR8: Delete order. Create order to be removed",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2023-03-28T06:10:17.242Z",
+            "modified": "2023-03-28T06:10:17.242Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Order to be removed\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{last_created_order}}"
+                }
+            ]
+        },
+        {
+            "_id": "de998c83-9f01-4907-9a7d-0664d738af25",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "EDIT PRODUCT NON EXISTENT RESTAURANT_ID",
+            "url": "{{base_url}}/products/{{last_created_product}}",
+            "method": "PUT",
+            "sortNum": 141250,
+            "created": "2023-03-28T06:10:17.243Z",
+            "modified": "2023-03-28T06:10:17.243Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Paella editado"
+                    },
+                    {
+                        "name": "description",
+                        "value": "de marisco editado"
+                    },
+                    {
+                        "name": "price",
+                        "value": "6"
+                    },
+                    {
+                        "name": "order",
+                        "value": "5"
+                    },
+                    {
+                        "name": "availability",
+                        "value": "false"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "value": "1213321213"
+                    },
+                    {
+                        "name": "productCategoryId",
+                        "value": "5"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "image",
+                        "value": "../example_assets/paella.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "d559b512-4a51-4b03-9fea-c6b2aa648888",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "EDIT PRODUCT RESTAURANT ID",
+            "url": "{{base_url}}/products/{{last_created_product}}",
+            "method": "PUT",
+            "sortNum": 142500,
+            "created": "2023-03-28T06:10:17.244Z",
+            "modified": "2023-03-28T06:10:17.244Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Paella editado"
+                    },
+                    {
+                        "name": "description",
+                        "value": "de marisco editado"
+                    },
+                    {
+                        "name": "price",
+                        "value": "6"
+                    },
+                    {
+                        "name": "order",
+                        "value": "5"
+                    },
+                    {
+                        "name": "availability",
+                        "value": "false"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "value": "2"
+                    },
+                    {
+                        "name": "productCategoryId",
+                        "value": "5"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "image",
+                        "value": "../example_assets/paella.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "dd8605f5-bd59-4f24-90af-592064f2468c",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "DELETE PRODUCT",
+            "url": "{{base_url}}/products/{{last_created_product}}",
+            "method": "DELETE",
+            "sortNum": 145000,
+            "created": "2023-03-28T06:10:17.245Z",
+            "modified": "2023-03-28T06:10:17.245Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "9f869698-ae20-4cd8-bae4-8adebf3e0133",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "REGISTER OTHER OWNER",
+            "url": "{{base_url}}/users/registerOwner",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2023-03-28T06:10:17.246Z",
+            "modified": "2023-03-28T06:10:17.246Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "firstName",
+                        "value": "Other owner"
+                    },
+                    {
+                        "name": "lastName",
+                        "value": "New Owner last name"
+                    },
+                    {
+                        "name": "email",
+                        "value": "{{#randomEmail}}"
+                    },
+                    {
+                        "name": "password",
+                        "value": "s3_!crET"
+                    },
+                    {
+                        "name": "phone",
+                        "value": "123456789"
+                    },
+                    {
+                        "name": "address",
+                        "value": "New Owner 2 address"
+                    },
+                    {
+                        "name": "postalCode",
+                        "value": "41001"
+                    },
+                    {
+                        "name": "userType",
+                        "value": "owner"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "avatar",
+                        "value": "../example_assets/maleAvatar.png"
+                    }
+                ]
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{owner2Token}}"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "3dfdbb24-b59c-49a3-8ff0-f446cb81ff57",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR8: Delete order. The order is successfully removed.",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "DELETE",
+            "sortNum": 150000,
+            "created": "2023-03-28T06:10:17.247Z",
+            "modified": "2023-03-28T06:10:17.247Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "f6b53805-4d23-4a99-9700-ac37aa35c416",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "EDIT PRODUCT NOT OWNED",
+            "url": "{{base_url}}/products/{{product1Id}}",
+            "method": "PUT",
+            "sortNum": 160000,
+            "created": "2023-03-28T06:10:17.248Z",
+            "modified": "2023-03-28T06:10:17.248Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Paella editado"
+                    },
+                    {
+                        "name": "description",
+                        "value": "de marisco editado"
+                    },
+                    {
+                        "name": "price",
+                        "value": "6"
+                    },
+                    {
+                        "name": "order",
+                        "value": "5"
+                    },
+                    {
+                        "name": "availability",
+                        "value": "false"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "value": "1"
+                    },
+                    {
+                        "name": "productCategoryId",
+                        "value": "5"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "image",
+                        "value": "../example_assets/paella.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{owner2Token}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "403"
+                }
+            ]
+        },
+        {
+            "_id": "9561c78a-783e-4cf1-9c0b-f2cfc0186d98",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR8: Edit order. Create order to be edited",
+            "url": "{{base_url}}/orders",
+            "method": "POST",
+            "sortNum": 160000,
+            "created": "2023-03-28T06:10:17.249Z",
+            "modified": "2023-03-28T06:10:17.249Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Fake street 123\", \"restaurantId\":\"{{restaurantId}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json.id",
+                    "action": "setto",
+                    "value": "{{last_created_order}}"
+                }
+            ]
+        },
+        {
+            "_id": "5837402d-05b0-4b35-aa7f-4f8609d310f4",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "DELETE RESTAURANT",
+            "url": "{{base_url}}/restaurants/{{last_created_restaurant}}",
+            "method": "DELETE",
+            "sortNum": 165000,
+            "created": "2023-03-28T06:10:17.250Z",
+            "modified": "2023-03-28T06:10:17.250Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "efdd2b5b-f3a5-49f3-aae4-0113d28ac90f",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "62de07df-d013-4c64-b7d2-a09aac9f3db2",
+            "name": "SHOW ORDER CREATED",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "GET",
+            "sortNum": 170000,
+            "created": "2023-03-28T06:10:17.251Z",
+            "modified": "2023-03-28T06:10:17.251Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "{{last_created_order}}"
+                }
+            ]
+        },
+        {
+            "_id": "061ec6ed-8138-4b0d-817e-d5a6e0649688",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR8: Edit order. The order is successfully edited",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "PUT",
+            "sortNum": 170000,
+            "created": "2023-03-28T06:10:17.252Z",
+            "modified": "2023-04-08T22:08:25.570Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Edited address\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 10},\n            {\"productId\":\"{{product4Id}}\", \"quantity\": 20}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.address",
+                    "action": "equal",
+                    "value": "Edited address"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[id={{product1Id}}].id",
+                    "action": "equal",
+                    "value": "{{product1Id}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[id={{product4Id}}].id",
+                    "action": "equal",
+                    "value": "{{product4Id}}"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[id={{product1Id}}].quantity",
+                    "action": "equal",
+                    "value": "10"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products[id={{product4Id}}].quantity",
+                    "action": "equal",
+                    "value": "20"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.products",
+                    "action": "count",
+                    "value": "2"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.shippingCosts",
+                    "action": "equal",
+                    "value": "0"
+                }
+            ]
+        },
+        {
+            "_id": "093fe2d9-8ed7-4c41-869d-c8e5b0a8946c",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR8. Edit Order. Test Validation: Restaurant cannot be modified",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "PUT",
+            "sortNum": 180000,
+            "created": "2023-03-28T06:10:17.253Z",
+            "modified": "2023-03-28T06:10:17.253Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Edited address\", \"restaurantId\":\"{{restaurant2Id}}\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 1},\n            {\"productId\":\"{{product2Id}}\", \"quantity\": 3},\n            {\"productId\":\"{{product3Id}}\", \"quantity\": 4}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "f8b30586-26ae-4e3a-ba79-150f950bc5e6",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "DELETE RESTAURANT THAT HAS ORDERS",
+            "url": "{{base_url}}/restaurants/{{restaurantId}}",
+            "method": "DELETE",
+            "sortNum": 182500,
+            "created": "2023-03-28T06:10:17.254Z",
+            "modified": "2023-03-28T06:10:17.254Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "8362efa3-c7ab-46cd-9558-21698819e19d",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "CREATE PRODUCT NON EXISTENT RESTAURANT_ID",
+            "url": "{{base_url}}/products/",
+            "method": "POST",
+            "sortNum": 185000,
+            "created": "2023-03-28T06:10:17.255Z",
+            "modified": "2023-03-28T06:10:17.255Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Paella"
+                    },
+                    {
+                        "name": "description",
+                        "value": "de marisco"
+                    },
+                    {
+                        "name": "price",
+                        "value": "5"
+                    },
+                    {
+                        "name": "order",
+                        "value": "4"
+                    },
+                    {
+                        "name": "availability",
+                        "value": "true"
+                    },
+                    {
+                        "name": "restaurantId",
+                        "value": "123123"
+                    },
+                    {
+                        "name": "productCategoryId",
+                        "value": "4"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "image",
+                        "value": "../example_assets/paella.jpeg"
+                    }
+                ]
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{owner2Token}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "b1a6720c-04c7-41b9-bbc3-e6675c75d7d2",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "d5108590-bfaf-400b-b25e-f175074d6741",
+            "name": "GET ALL RESTAURANT CATEGORIES",
+            "url": "{{base_url}}/restaurantCategories",
+            "method": "GET",
+            "sortNum": 190000,
+            "created": "2023-03-28T06:10:17.256Z",
+            "modified": "2023-03-28T06:11:16.745Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[0].id",
+                    "action": "setto",
+                    "value": "{{restaurantCategoryId}}"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[1].id",
+                    "action": "setto",
+                    "value": "{{anotherRestaurantCategoryId}}"
+                }
+            ]
+        },
+        {
+            "_id": "8d4e1a1b-ba30-4260-a8ea-958da6986bc0",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "d5108590-bfaf-400b-b25e-f175074d6741",
+            "name": "GET ALL PRODUCT CATEGORIES",
+            "url": "{{base_url}}/productCategories",
+            "method": "GET",
+            "sortNum": 200000,
+            "created": "2023-03-28T06:10:17.257Z",
+            "modified": "2023-03-28T06:11:23.652Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "set-env-var",
+                    "custom": "json[0].id",
+                    "action": "setto",
+                    "value": "{{productCategoryId}}"
+                }
+            ]
+        },
+        {
+            "_id": "b0184728-8cd2-4e7d-a6d7-8aa6e2f2a5a4",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "73daccb0-c310-4307-b05d-3754d86da74c",
+            "name": "GET ANALYTICS RESTAURANT 1",
+            "url": "{{base_url}}/restaurants/{{restaurantId}}/analytics",
+            "method": "GET",
+            "sortNum": 200000,
+            "created": "2023-03-28T06:10:17.258Z",
+            "modified": "2023-03-28T06:10:17.258Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "e7639ab5-7d9f-4d93-8cae-8313dc8418f6",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR8: Edit order. Test validation: Order cannot be edited after confirmation. Change order status to confirmed",
+            "url": "{{base_url}}/orders/{{last_created_order}}/confirm",
+            "method": "PATCH",
+            "sortNum": 200000,
+            "created": "2023-03-28T06:10:17.259Z",
+            "modified": "2023-03-28T06:10:17.259Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{ownerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "5c9227b7-21cd-4307-993e-eb8985177efe",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "91a5461e-9c22-4a39-a3b7-6dc25b97a26b",
+            "name": "POPULAR PRODUCTS",
+            "url": "{{base_url}}/products/popular",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2023-03-28T06:10:17.260Z",
+            "modified": "2023-03-28T06:10:17.260Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "371a90b1-3bdf-42f9-bebc-30e5e421c09a",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR8: Edit order. Test validation: Order cannot be edited after confirmation.",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "PUT",
+            "sortNum": 210000,
+            "created": "2023-03-28T06:10:17.261Z",
+            "modified": "2023-03-28T06:10:17.261Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"address\": \"Edited address\",\n    \"products\":[\n            {\"productId\":\"{{product1Id}}\", \"quantity\": 10},\n            {\"productId\":\"{{product4Id}}\", \"quantity\": 20}\n        ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "795e4286-bae9-4454-95eb-202e7d22c804",
+            "colId": "21a9caed-6686-4610-9adf-d4da4ae2c26c",
+            "containerId": "7603e94b-ca54-4b5b-a9be-bd611997effb",
+            "name": "FR8: Delete order. Test validation: Order cannot be deleted after confirmation.",
+            "url": "{{base_url}}/orders/{{last_created_order}}",
+            "method": "DELETE",
+            "sortNum": 220000,
+            "created": "2023-03-28T06:10:17.262Z",
+            "modified": "2023-03-28T06:10:17.262Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{customerToken}}"
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        }
+    ]
+}

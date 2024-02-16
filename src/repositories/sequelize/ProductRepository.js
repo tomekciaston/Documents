@@ -1,17 +1,27 @@
 
-import Sequelize from 'sequelize'
-import RepositoryBase from '../RepositoryBase.js'
-import { OrderSequelize, RestaurantSequelize, RestaurantCategorySequelize, ProductSequelize, ProductCategorySequelize } from './models/models.js'
+import Sequelize, {col, Op, fn} from 'sequelize'
+import RepositoryBase from '../RepositoryBase.js';
+import OrderSequelize from './models/OrderSequelize.js';
+import RestaurantSequelize from './models/RestaurantSequelize.js';
+import RestaurantCategorySequelize from './models/RestaurantCategorySequelize.js';
+import ProductSequelize from './models/ProductSequelize.js';
+import ProductCategorySequelize from './models/ProductCategorySequelize.js';
+import ReviewSequelize from './models/ReviewSequelize.js';
 
 class ProductRepository extends RepositoryBase {
   async findById (id, ...args) {
     return ProductSequelize.findByPk(id, {
-      include: [
-        {
-          model: ProductCategorySequelize,
-          as: 'productCategory'
-        }]
-    }
+          include: [
+            {
+              model: ReviewSequelize,
+              as: 'reviews',
+              required: false,
+            },
+            {
+              model: ProductCategorySequelize,
+              as: 'productCategory'
+            }]
+        }
     )
   }
 
@@ -76,6 +86,16 @@ class ProductRepository extends RepositoryBase {
       // limit: 3 //this is not supported when M:N associations are involved
       })
     return topProducts.slice(0, 3)
+  }
+
+  async search(searchTerm) {
+    return ProductSequelize.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${searchTerm}%`
+        }
+      }
+    })
   }
 
   async checkProductOwnership (productId, ownerId) {

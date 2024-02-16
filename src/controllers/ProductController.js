@@ -8,7 +8,9 @@ class ProductController {
     this.create = this.create.bind(this)
     this.update = this.update.bind(this)
     this.destroy = this.destroy.bind(this)
+    this.search = this.search.bind(this)   
     this.popular = this.popular.bind(this)
+
   }
 
   async indexRestaurant (req, res) {
@@ -61,6 +63,15 @@ class ProductController {
     try {
       const top3Products = await this.productService.popular()
       res.json(top3Products)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
+
+  async search(req, res) {
+    try {
+      const products = await this.productService.search(req.query.query)
+      res.json(products)
     } catch (err) {
       res.status(500).send(err.message)
     }

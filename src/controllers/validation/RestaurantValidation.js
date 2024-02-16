@@ -52,4 +52,10 @@ const update = [
   }).withMessage('Maximum file size of ' + maxFileSize / 1000000 + 'MB')
 ]
 
-export { create, update }
+const search = [
+  check('postalCode').optional({ nullable: true, checkFalsy: true }).isString().isLength({ min: 5, max: 8 }),
+  check('expensive').optional().isBoolean().toBoolean(),
+  check('sortBy').optional().isString().isIn(['preparationTime', 'deliveryTime' ]),
+]
+
+export { create, update, search }

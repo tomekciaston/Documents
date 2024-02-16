@@ -13,9 +13,9 @@ class OrderController {
     this.deliver = this.deliver.bind(this)
     this.show = this.show.bind(this)
     this.analytics = this.analytics.bind(this)
+    this.search = this.search.bind(this)
   }
 
-  // Returns :restaurantId orders
   async indexRestaurant (req, res) {
     try {
       const orders = await this.orderService.indexRestaurant(req.params.restaurantId)
@@ -104,6 +104,15 @@ class OrderController {
     try {
       const analytics = await this.orderService.analytics(req.params.restaurantId)
       res.json(analytics)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
+
+  async search(req, res) {
+    try {
+      const orders = await this.orderService.search(req.query.query, req.user.id)
+      res.json(orders)
     } catch (err) {
       res.status(500).send(err.message)
     }

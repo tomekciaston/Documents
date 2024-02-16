@@ -1,6 +1,5 @@
 import RepositoryBase from '../RepositoryBase.js'
 import UserMongoose from './models/UserMongoose.js'
-import { UserSequelize } from '../sequelize/models/models.js'
 
 class UserRepository extends RepositoryBase {
   async findById (id, ...args) {
@@ -11,6 +10,56 @@ class UserRepository extends RepositoryBase {
     }
   }
 
+  async top(){
+
+    const top10PercentCount = await UserMongoose.count() * 0.1
+    const top10PercentCountRounded = Math.ceil(top10PercentCount)
+    console.log(top10PercentCountRounded)
+    return UserMongoose.aggregate([
+      {
+        $lookup: {
+          from: "orders",
+          localField: "_id",
+          foreignField: "_userId",
+          as: "orders"
+        }
+      },
+      {
+        $unwind: "$orders"
+      },
+      {
+        $group: {
+          _id: "$_id",
+          totalSpent: { $sum: "$orders.price" },
+          firstName: { $first: "$firstName" },
+          lastName: { $first: "$lastName" }
+        }
+      },
+      {
+        $sort: { totalSpent: -1 }
+      },
+      {
+        $limit: top10PercentCountRounded
+      }
+    ])
+  }
+
+  async search (query) {
+    return UserMongoose.aggregate([
+      { $match: { postalCode: query.postalCode, userType: "customer" } },
+      {
+        $project: {
+          _id: 0,
+          firstName: 1,
+          lastName: 1,
+          email: 1,
+          phone: 1,
+          address: 1,
+          postalCode: 1
+        }
+      }
+    ])
+  }
   async create (businessEntity, ...args) {
     return (new UserMongoose(businessEntity)).save()
   }

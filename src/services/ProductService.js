@@ -5,6 +5,7 @@ class ProductService {
   constructor () {
     this.productRepository = container.resolve('productRepository')
     this.restaurantRepository = container.resolve('restaurantRepository')
+    this.reviewRepository = container.resolve('reviewRepository')
   }
 
   async indexRestaurant (restaurantId) {
@@ -62,16 +63,36 @@ class ProductService {
     return topProducts
   }
 
-  async exists (id) {
-    return await this.productRepository.findById(id)
+  async createReview(title, body, stars, productId, userId) {
+    return await this.reviewRepository.create(title, body, stars, productId, userId);
   }
 
-  async checkProductOwnership (productId, ownerId) {
-    return await this.productRepository.checkProductOwnership(productId, ownerId)
+  async updateReview(productId, reviewId, title, body, stars) {
+    return await this.reviewRepository.update(productId, reviewId, title, body, stars);
   }
 
-  async checkProductRestaurantOwnership (restaurantId, ownerId) {
-    return await this.productRepository.checkProductRestaurantOwnership(restaurantId, ownerId)
+  async destroyReview(productId, reviewId) {
+    return await this.reviewRepository.destroy(productId, reviewId);
+  }
+
+  async exists(id) {
+    return await this.productRepository.findById(id);
+  }
+
+  async reviewExists(productId, reviewId) {
+    return await this.reviewRepository.findById(productId, reviewId);
+  }
+
+  async checkProductOwnership(productId, ownerId) {
+    return await this.productRepository.checkProductOwnership(productId, ownerId);
+  }
+
+  async checkProductRestaurantOwnership(restaurantId, ownerId) {
+    return await this.productRepository.checkProductRestaurantOwnership(restaurantId, ownerId);
+  }
+
+  async search(query) {
+    return await this.productRepository.search(query)
   }
 }
 

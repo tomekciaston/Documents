@@ -38,4 +38,7 @@ const login = [
   check('password').exists().isString()
 ]
 
-export { create, update, login }
+const search = [
+  check('postalCode').exists().isString().isLength({ min: 1, max: 12 }).trim()
+]
+export { create, update, login, search }

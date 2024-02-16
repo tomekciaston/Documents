@@ -37,6 +37,21 @@ class ProductRepository extends RepositoryBase {
     return restaurantUpdated.products.id(id)
   }
 
+  async search(searchTerm) {
+    const restaurants = await RestaurantMongoose.aggregate([
+      { $unwind: "$products" },
+      { $match: {
+          $or: [
+            { "products.name": { $regex: searchTerm, $options: 'i' } },
+            { "products.description": { $regex: searchTerm, $options: 'i' } }
+          ]
+        }},
+      { $project: { _id: 0, products: 1 } }
+    ]);
+
+    return restaurants.map(x => x.products);
+  }
+
   async destroy (id) {
     const restaurant = await RestaurantMongoose.findOne({ 'products._id': id })
     restaurant.products.pull(id)

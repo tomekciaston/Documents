@@ -8,13 +8,14 @@ const basename = path.basename(__filename)
 
 const loadRoutes = function (app) {
   fs.readdirSync(__dirname)
-    .filter(file => {
-      return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
-    })
-    .forEach(async file => {
-      const { default: loadFileRoutes } = await import(path.join(__dirname, file))
-      loadFileRoutes(app)
-    })
+  .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
+  })
+  .forEach(async file => {
+    const modulePath = new URL(`file://${path.join(__dirname, file)}`).href;
+    const {default: loadFileRoutes} = await import(modulePath);
+    loadFileRoutes(app);
+  });
 }
 
 export default loadRoutes
